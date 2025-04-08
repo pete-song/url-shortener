@@ -1,3 +1,21 @@
+# URL SHORTENER
+
+## Requirements
+
+- URL must be shortened and functional.
+- Reuse existing shortened URLs.
+- Proper error handling for invalid/empty input.
+- History shows the most recent url shortened. 
+- Links are copyable and deletable.
+- Mobile view works too.
+
+## System Architecture
+
+### Tech Stack:
+- Next.js
+- Drizzle ORM & Neon (Postgresql)
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
