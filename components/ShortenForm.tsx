@@ -123,7 +123,7 @@ function ShortenForm() {
         await addUrl(url, shortId);
         setShortenedLink(shortId);
       }
-    } catch (error: any) {
+    } catch (error: Error | unknown) {
       console.error("Error shortening URL:", error);
       setError("Failed to shorten URL. Please try again.");
     } finally {
