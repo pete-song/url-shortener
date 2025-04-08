@@ -164,7 +164,7 @@ export default function HistoryPage() {
         visits: url.visits === null ? 0 : url.visits,
       })) as Url[]);
       setLoading(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error fetching URLs:", err);
       setError("Failed to load URL history.");
       setLoading(false);
@@ -179,8 +179,8 @@ export default function HistoryPage() {
     if (window.confirm("Are you sure you want to delete this URL?")) {
       try {
         await deleteUrlAction(id);
-        await fetchUrls(); 
-      } catch (err: any) {
+        await fetchUrls();
+      } catch (err: unknown) { 
         console.error("Error deleting URL:", err);
         setError("Failed to delete URL.");
       }
@@ -228,7 +228,7 @@ export default function HistoryPage() {
                   <OriginalUrlCell
                     href={`/${url.shortenedUrl}`}
                     target='_blank'
-                    onError={handleLinkError} 
+                    onError={handleLinkError}
                   >
                     {url.originalUrl}
                   </OriginalUrlCell>
