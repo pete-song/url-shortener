@@ -11,10 +11,8 @@ interface Params {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Params }
+  { shortenedUrl }: Params 
 ) {
-  const { shortenedUrl } = await params;
-
   if (!shortenedUrl) {
     return new NextResponse("Shortened URL not provided", { status: 400 });
   }
