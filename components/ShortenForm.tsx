@@ -3,6 +3,7 @@ import { addUrl, findExistingUrl } from '@/actions/urlActions';
 import { generateShortId } from '@/app/utils/generateShortId';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { urlRegex } from '@/app/utils/urlRegex';
 
 const Form = styled.form`
   margin-bottom: 1rem;
@@ -19,13 +20,13 @@ const Form = styled.form`
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   width: 100%;
 
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.5rem;
     width: 100%;
   }
 `;
@@ -40,7 +41,7 @@ const Input = styled.input`
   background-color: #393937;
 
   @media (max-width: 768px) {
-    width: 100%; 
+    width: 100%;
   }
 
   &:focus {
@@ -52,7 +53,7 @@ const Input = styled.input`
 
 const Button = styled.button`
   width: 100%;
-  padding: 0.6rem; 
+  padding: 0.6rem;
   border: none;
   cursor: pointer;
   background-color: #ffffff;
@@ -62,7 +63,7 @@ const Button = styled.button`
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 0.9rem; 
+  font-size: 0.9rem;
 
   &:hover {
     background-color: #FFFFFFB2;
@@ -70,8 +71,8 @@ const Button = styled.button`
 `;
 
 const ErrorMessage = styled.p`
-  color: #dc2626;
-  margin-top: 0.5rem;
+  color: #FF6C6F;
+  font-size: 0.8rem;
   text-align: center;
 `;
 
@@ -95,7 +96,7 @@ const ShortenedLinkText = styled.p`
 const ShortenedLink = styled.a`
   color: lightblue;
   text-decoration: underline;
-  text-align: center; 
+  text-align: center;
 `;
 
 function ShortenForm() {
@@ -110,6 +111,11 @@ function ShortenForm() {
 
     if (!url) {
       setError("Please enter a URL.");
+      return;
+    }
+
+    if (!urlRegex.test(url)) {
+      setError("Please enter a valid URL format.");
       return;
     }
 
@@ -132,7 +138,7 @@ function ShortenForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} noValidate>
       <InputContainer>
         <Input
           value={url}
@@ -141,11 +147,11 @@ function ShortenForm() {
           placeholder='Enter URL to shorten'
           required
         />
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <Button type='submit'>
           Shorten URL
         </Button>
       </InputContainer>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
       {shortenedLink && (
         <ShortenedLinkContainer>
           <ShortenedLinkText>Shortened URL:</ShortenedLinkText>
