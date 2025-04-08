@@ -5,21 +5,21 @@ import { eq } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 import { NextRequest, NextResponse } from 'next/server';
 
-interface Params {
-  shortenedUrl?: string;
-}
+export async function GET(request: NextRequest) {
+  const url = new URL(request.url);
+  const pathnameParts = url.pathname.split('/');
+  const shortenedUrl = pathnameParts[pathnameParts.length - 1];
 
-export async function GET(
-  request: NextRequest,
-  { shortenedUrl }: Params 
-) {
   if (!shortenedUrl) {
     return new NextResponse("Shortened URL not provided", { status: 400 });
   }
 
   await incrementVisitCount(shortenedUrl);
 
-  const urlData = await db.select().from(urls).where(eq(urls.shortenedUrl, shortenedUrl)).limit(1);
+  const urlData = await db.select()
+    .from(urls)
+    .where(eq(urls.shortenedUrl, shortenedUrl))
+    .limit(1);
 
   if (urlData.length > 0) {
     redirect(urlData[0].originalUrl);
